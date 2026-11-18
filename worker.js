@@ -33,7 +33,100 @@ const SITE_HTML = `<!doctype html>
     @media(max-width:900px){.shell{width:min(100% - 38px,720px)}.nav{height:70px}.nav-links{gap:18px}.hero{min-height:590px}.hero:before{right:-240px}.hero:after{right:-2%}.catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 17px}.product-media{aspect-ratio:4/5}.manifesto{gap:35px}.detail-layout{gap:38px;grid-template-columns:1fr 1fr}.cart-layout{gap:28px}.checkout-layout{grid-template-columns:minmax(0,1fr) 300px;gap:28px}}
     @media(max-width:640px){.shell{width:calc(100% - 32px)}.announcement{font-size:8px;letter-spacing:1.5px}.nav{height:65px}.brand{font-size:16px;letter-spacing:3px}.nav-links{display:none;position:absolute;left:0;right:0;top:65px;padding:18px 20px 22px;background:#0c0c0b;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;gap:9px}.nav-links.is-open{display:flex}.nav-links a{padding:12px 0}.menu-toggle{display:grid;place-items:center}.cart-link{padding:10px 11px;font-size:8px;gap:7px}.hero{min-height:610px}.hero-content{padding:90px 0 105px}.hero h1{font-size:clamp(54px,14vw,78px);letter-spacing:-2.8px}.hero:before{width:380px;height:380px;right:-240px;top:110px}.hero:after{height:300px;right:-26%;top:200px}.hero-note{right:0;bottom:19px}.section{padding:68px 0}.section-head{display:block}.section-description{margin-top:16px}.catalog-grid{gap:27px 12px}.product-name{font-size:17px}.product-price{font-size:10px}.product-media{aspect-ratio:3/4}.product-label{top:9px;left:9px;padding:6px 7px;font-size:7px}.product-quick{left:7px;right:7px;bottom:7px;min-height:38px;font-size:8px;opacity:1;transform:none}.product-info{gap:7px;padding-top:12px}.product-reference{font-size:7px;letter-spacing:1.2px}.manifesto{grid-template-columns:1fr;gap:28px}.manifesto-art{min-height:230px}.manifesto-copy p{font-size:12px}.instagram-row{align-items:flex-start;flex-direction:column}.instagram-link{width:100%}.detail-layout{display:flex;flex-direction:column;gap:26px;padding:28px 0 65px}.detail-info{position:static;padding:0}.back-link{margin-bottom:24px}.detail-name{font-size:43px}.detail-buttons{flex-direction:column}.detail-buttons .button{width:100%}.cart-page,.checkout-page{padding:48px 0 70px}.cart-layout,.checkout-layout{grid-template-columns:1fr;gap:28px}.cart-item{grid-template-columns:82px minmax(0,1fr);gap:13px}.cart-thumb{width:82px}.cart-item-actions{grid-column:2;justify-content:flex-start}.cart-item h3{font-size:17px}.checkout-form{grid-template-columns:1fr;gap:15px}.form-field.full,.payment-box,.form-actions{grid-column:1}.checkout-summary{order:-1}.summary-card{padding:20px}.form-actions .button{width:100%}.page-heading{padding:54px 0 36px}.page-heading h1{font-size:53px}.footer-row{align-items:flex-start;flex-direction:column;gap:13px}.toast{bottom:16px}}
     @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
-  </style>
+/* AIT CREATIVE — HERO BACKGROUND
+   Apply this to the HOME hero behind:
+   “Original Art. Wearable Artifacts.”
+   Paste before </style> in worker.js. */
+.hero {
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse at 78% 38%, rgba(216,194,163,.19) 0%, transparent 36%),
+    radial-gradient(ellipse at 91% 84%, rgba(216,194,163,.08) 0%, transparent 27%),
+    repeating-linear-gradient(0deg, rgba(232,220,200,.018) 0 1px, transparent 1px 7px),
+    linear-gradient(118deg, #080808 0%, #11100e 54%, #19150f 100%) !important;
+}
+
+.hero::before {
+  z-index: 0;
+  width: min(58vw, 700px);
+  height: min(58vw, 700px);
+  right: -8%;
+  top: 50%;
+  border: 1px solid rgba(216,194,163,.22);
+  border-radius: 48% 52% 46% 54%;
+  background:
+    radial-gradient(ellipse at 42% 40%, rgba(216,194,163,.11), transparent 54%),
+    repeating-linear-gradient(135deg, rgba(232,220,200,.045) 0 1px, transparent 1px 13px);
+  box-shadow:
+    0 0 0 18px rgba(216,194,163,.025),
+    0 0 0 54px rgba(216,194,163,.018),
+    inset 0 0 70px rgba(216,194,163,.035);
+  transform: translateY(-50%) rotate(18deg);
+  animation: ait-hero-orbit 30s linear infinite;
+}
+
+.hero::after {
+  z-index: 0;
+  width: clamp(180px, 24vw, 330px);
+  height: min(66%, 430px);
+  right: 13%;
+  top: 16%;
+  border: 1px solid rgba(216,194,163,.16);
+  background:
+    linear-gradient(145deg, rgba(216,194,163,.11), rgba(216,194,163,.015) 62%),
+    repeating-linear-gradient(90deg, rgba(232,220,200,.035) 0 1px, transparent 1px 15px);
+  clip-path: polygon(50% 0, 84% 11%, 100% 100%, 0 100%, 16% 11%);
+  transform: rotate(10deg);
+  animation: ait-hero-float 11s ease-in-out infinite;
+}
+
+.hero-content {
+  z-index: 2;
+}
+
+.hero h1 {
+  position: relative;
+  text-shadow: 0 8px 38px rgba(0,0,0,.42);
+}
+
+@keyframes ait-hero-orbit {
+  from { transform: translateY(-50%) rotate(18deg); }
+  to   { transform: translateY(-50%) rotate(378deg); }
+}
+
+@keyframes ait-hero-float {
+  0%, 100% { translate: 0 0; }
+  50%      { translate: 0 -12px; }
+}
+
+@media (max-width: 900px) {
+  .hero::before { right: -34%; opacity: .78; }
+  .hero::after { right: 2%; opacity: .62; }
+}
+
+@media (max-width: 640px) {
+  .hero::before {
+    width: 390px;
+    height: 390px;
+    right: -235px;
+    top: 46%;
+    opacity: .55;
+  }
+  .hero::after {
+    width: 190px;
+    height: 290px;
+    right: -8%;
+    top: 26%;
+    opacity: .38;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero::before,
+  .hero::after {
+    animation: none ! important;
+  }
+}  </style>
 </head>
 <body>
   <div class="announcement">Independent creative archive · Made in Morocco</div>
