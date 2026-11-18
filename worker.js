@@ -35,8 +35,8 @@ const HTML = `<!doctype html>
 <script>
 (function(){
   'use strict';
-  var products = [];
-  var settings = {delivery_fee_mad:0, instagram_url:'https://www.instagram.com/'};
+  var products = __AIT_INITIAL_PRODUCTS__;
+  var settings = __AIT_INITIAL_SETTINGS__;
   var cart = [];
   var selectedProduct = null;
   var selectedColor = '';
@@ -98,7 +98,7 @@ const HTML = `<!doctype html>
       products=data.products||[];settings=data.settings||settings;
       byId('instagramLink').href=settings.instagram_url||'https://www.instagram.com/';
       renderProducts();
-    }catch(err){byId('products').innerHTML='<div class="empty error" style="grid-column:1/-1">Erreur de chargement : '+escapeHtml(err.message)+'<br>Vérifiez la configuration Google Sheets.</div>';}
+    }catch(err){console.error('AIT CREATIVE products refresh failed:',err);if(!products.length){byId('products').innerHTML='<div class="empty error" style="grid-column:1/-1">Erreur de chargement : '+escapeHtml(err.message)+'<br>Vérifiez la configuration Google Sheets.</div>';}}
   };
   byId('openCart').onclick=function(){renderCart();show('cartOverlay');};
   byId('checkoutBtn').onclick=function(){hide('cartOverlay');show('checkoutOverlay');};
@@ -121,6 +121,7 @@ const HTML = `<!doctype html>
   Array.prototype.forEach.call(document.querySelectorAll('[data-close]'),function(b){b.addEventListener('click',function(){hide(b.getAttribute('data-close'));});});
   Array.prototype.forEach.call(document.querySelectorAll('.overlay'),function(o){o.addEventListener('click',function(e){if(e.target===o)hide(o.id);});});
   byId('year').textContent=new Date().getFullYear();
+  if(products.length) renderProducts();
   loadProducts();
 })();
 </script>
@@ -171,7 +172,43 @@ export default {
     }
 
     if (url.pathname === '/' || url.pathname === '/index.html') {
-      return new Response(HTML, { headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' } });
+      let initial = { ok: false, products: [], settings: { delivery_fee_mad: 0, instagram_url: 'https://www.instagram.com/' } };
+      if (env.APPS_SCRIPT_URL) {
+        try {
+          const target = new URL(env.APPS_SCRIPT_URL);
+          target.searchParams.set('action', 'products');
+          const upstream = await fetch(target.toString(), { method: 'GET', redirect: 'follow' });
+          const body = await upstream.text();
+          initial = JSON.parse(body);
+        } catch (err) {
+          initial = { ok: false, products: [], settings: { delivery_fee_mad: 0, instagram_url: 'https://www.instagram.com/' }, error: err.message };
+        }
+      }
+      const products = Array.isArray(initial.products) ? initial.products : [];
+      const settings = initial.settings || { delivery_fee_mad: 0, instagram_url: 'https://www.instagram.com/' };
+      const safeJson = value => JSON.stringify(value).replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/&/g, '\\u0026');
+      const esc = value => String(value == null ? '' : value).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+      const imgUrl = value => {
+        const raw = String(value || '').split(/[,،;\n]/).map(x => x.trim()).filter(Boolean)[0] || '';
+        const match = raw.match(/drive\.google\.com\/file\/d\/([^/]+)/i) || raw.match(/[?&]id=([^&]+)/i);
+        return match ? 'https://drive.google.com/thumbnail?id=' + match[1] + '&sz=w1200' : raw;
+      };
+      const cards = products.map(p => {
+        const name = p.product_name_fr || p.product_name_en || 'AIT CREATIVE';
+        const image = imgUrl(p.images);
+        const media = image
+          ? '<img src="' + esc(image) + '" alt="' + esc(name) + '" style="width:100%;height:100%;object-fit:cover">'
+          : '<div class="placeholder">AIT.</div>';
+        return '<article class="product" data-product="' + esc(p.product_id) + '"><div class="product-image">' + media + '</div><div class="product-meta"><div><div class="product-name">' + esc(name) + '</div><div class="small-ref">' + esc(p.reference || 'AIT CREATIVE') + '</div></div><div class="price">' + new Intl.NumberFormat('fr-MA', { maximumFractionDigits: 0 }).format(Number(p.price_mad) || 0) + ' MAD</div></div></article>';
+      }).join('');
+      const emptyMessage = initial.error
+        ? '<div class="empty error" style="grid-column:1/-1">Impossible de charger les produits. ' + esc(initial.error) + '</div>'
+        : '<div class="empty" style="grid-column:1/-1">La collection sera bientôt disponible.</div>';
+      let page = HTML;
+      page = page.replace('var products = __AIT_INITIAL_PRODUCTS__;', 'var products = ' + safeJson(products) + ';');
+      page = page.replace('var settings = __AIT_INITIAL_SETTINGS__;', 'var settings = ' + safeJson(settings) + ';');
+      page = page.replace('<div id="products" class="products"><div class="loading">Chargement de la collection…</div></div>', '<div id="products" class="products">' + (cards || emptyMessage) + '</div>');
+      return new Response(page, { headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' } });
     }
     return new Response('Not found', { status: 404 });
   }
