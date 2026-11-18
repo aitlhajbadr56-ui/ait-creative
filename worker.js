@@ -1,4 +1,10 @@
-const HTML = `<!doctype html>
+const DEFAULT_SETTINGS = {
+  store_name: 'AIT CREATIVE',
+  delivery_fee_mad: 0,
+  instagram_url: 'https://www.instagram.com/'
+};
+
+const SITE_HTML = `<!doctype html>
 <html lang="fr">
 <head>
   <meta charset="utf-8">
@@ -6,251 +12,266 @@ const HTML = `<!doctype html>
   <meta name="theme-color" content="#080808">
   <meta name="description" content="AIT CREATIVE — Independent creative archive from Morocco. Original Art. Wearable Artifacts.">
   <title>AIT CREATIVE — Wearable Artifacts</title>
+  <link rel="preconnect" href="https://drive.google.com">
   <style>
-    :root{--black:#080808;--panel:#151515;--beige:#D8C2A3;--ivory:#E8DCC8;--muted:#a99d8e;--line:rgba(216,194,163,.22)}
-    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--black);color:var(--ivory);font-family:Arial,Helvetica,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.wrap{width:min(1180px,92%);margin:auto}.topline{border-bottom:1px solid var(--line);font-size:10px;letter-spacing:2px;text-align:center;padding:10px;color:var(--muted)}
-    header{position:sticky;top:0;z-index:10;background:rgba(8,8,8,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{font-size:21px;letter-spacing:4px;font-weight:800;color:var(--ivory);text-decoration:none}.brand span{color:var(--beige)}.navlinks{display:flex;gap:24px;align-items:center}.navlinks a,.navlinks button{color:var(--muted);text-decoration:none;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;background:none;border:0}.navlinks a:hover,.navlinks button:hover{color:var(--beige)}.cartbtn{border:1px solid var(--beige)!important;padding:11px 15px;color:var(--beige)!important}.hero{min-height:560px;display:flex;align-items:center;border-bottom:1px solid var(--line);background:radial-gradient(ellipse at 80% 45%,rgba(216,194,163,.12),transparent 42%)}.hero-inner{padding:90px 0;max-width:720px}.eyebrow{font-size:10px;letter-spacing:4px;color:var(--beige);text-transform:uppercase}.hero h1{font-family:Georgia,serif;font-size:clamp(48px,8vw,90px);font-weight:400;line-height:.98;letter-spacing:-3px;margin:24px 0}.hero h1 em{color:var(--beige);font-weight:400}.hero p{color:var(--muted);line-height:1.8;max-width:490px;font-size:14px}.btn{display:inline-flex;align-items:center;justify-content:center;padding:15px 22px;border:1px solid var(--beige);background:var(--beige);color:var(--black);text-decoration:none;text-transform:uppercase;letter-spacing:1.8px;font-size:10px;font-weight:bold;margin-top:22px}.btn.ghost{background:transparent;color:var(--beige)}.section{padding:82px 0;border-bottom:1px solid var(--line)}.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:34px}.section h2{font:400 clamp(32px,5vw,48px) Georgia,serif;margin:10px 0 0}.sub{color:var(--muted);font-size:12px;line-height:1.7}.products{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.product{cursor:pointer}.product-image{height:360px;background:#171513;overflow:hidden;position:relative;border:1px solid rgba(216,194,163,.12)}.product-image img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}.product:hover .product-image img{transform:scale(1.04)}.placeholder{height:100%;display:grid;place-items:center;color:#71685d;font:italic 28px Georgia,serif;letter-spacing:2px}.product-meta{display:flex;justify-content:space-between;gap:10px;padding:15px 2px}.product-name{font:20px Georgia,serif}.price{color:var(--beige);font-size:13px;white-space:nowrap}.small-ref{font-size:9px;color:var(--muted);letter-spacing:2px;margin-top:7px}.about-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:70px;align-items:center}.about-mark{border:1px solid var(--line);min-height:280px;display:grid;place-items:center;color:var(--beige);font:italic 42px Georgia,serif;background:linear-gradient(135deg,#171513,#090909)}footer{padding:32px 0;color:var(--muted);font-size:10px;letter-spacing:1.5px}.footer-row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.footer-row a{color:var(--beige);text-decoration:none}
-    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:30;display:none;overflow:auto;padding:24px}.overlay.open{display:block}.modal{width:min(900px,100%);margin:5vh auto;background:#111;border:1px solid var(--line);padding:28px;position:relative}.close{position:absolute;right:18px;top:15px;background:none;color:var(--beige);border:0;font-size:25px}.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px}.detail-image{height:450px;background:#191714}.detail-image img{width:100%;height:100%;object-fit:cover}.detail h2{font:38px Georgia,serif;margin:8px 0}.detail-price{color:var(--beige);font-size:18px;margin:18px 0}.detail-desc{color:var(--muted);font-size:13px;line-height:1.8;white-space:pre-line}.field{margin:16px 0}.field label{display:block;color:var(--muted);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}.field input,.field textarea,.field select{width:100%;background:#080808;border:1px solid var(--line);padding:13px;color:var(--ivory);outline:none}.field textarea{min-height:82px;resize:vertical}.choices{display:flex;gap:8px;flex-wrap:wrap}.choice{background:transparent;border:1px solid var(--line);color:var(--ivory);padding:9px 13px;font-size:11px}.choice.selected{border-color:var(--beige);background:rgba(216,194,163,.13);color:var(--beige)}.qty{display:flex;align-items:center;gap:12px}.qty button{background:#222;border:1px solid var(--line);color:var(--beige);width:32px;height:32px}.cart-line{display:grid;grid-template-columns:72px 1fr auto;gap:15px;padding:15px 0;border-bottom:1px solid var(--line);align-items:center}.cart-thumb{height:82px;background:#1a1815}.cart-thumb img{width:100%;height:100%;object-fit:cover}.cart-line h4{font:17px Georgia,serif;margin:0 0 6px}.cart-line small{color:var(--muted)}.totals{margin:22px 0;border-top:1px solid var(--line);padding-top:16px}.total-row{display:flex;justify-content:space-between;margin:10px 0;font-size:13px}.total-row.final{font-size:18px;color:var(--beige)}.notice{padding:13px;border:1px solid var(--line);color:var(--muted);font-size:12px;line-height:1.6;margin:14px 0}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--beige);color:#080808;padding:13px 18px;z-index:60;font-size:12px;display:none;max-width:90%;text-align:center}.toast.show{display:block}.empty{padding:50px 10px;text-align:center;color:var(--muted)}.loading{color:var(--muted);padding:35px 0}.error{color:#e6a69a}
-    /* Premium motion: restrained entrances, soft hover and reduced-motion support */
-    @keyframes heroRise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
-    @keyframes softGlow{0%,100%{opacity:.45;transform:scale(1)}50%{opacity:.8;transform:scale(1.08)}}
-    @keyframes cardRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-    .hero-inner{animation:heroRise .9s cubic-bezier(.2,.7,.2,1) both}
-    .hero{position:relative;overflow:hidden}
-    .hero:after{content:"";position:absolute;width:360px;height:360px;right:4%;top:20%;border-radius:50%;background:radial-gradient(circle,rgba(216,194,163,.12),transparent 68%);pointer-events:none;animation:softGlow 7s ease-in-out infinite}
-    .hero-inner{position:relative;z-index:1}
-    .btn,.cartbtn,.choice,.quick-order{transition:transform .25s ease,background .25s ease,border-color .25s ease,box-shadow .25s ease}
-    .btn:hover,.quick-order:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(216,194,163,.13)}
-    .product{transition:transform .35s ease,opacity .35s ease}
-    .product:hover{transform:translateY(-6px)}
-    .product-image{transition:border-color .35s ease}
-    .product:hover .product-image{border-color:rgba(216,194,163,.5)}
-    .product-image img{transition:transform .7s cubic-bezier(.2,.7,.2,1)}
-    .product-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 2px 14px}
-    .quick-order{background:transparent;border:1px solid var(--beige);color:var(--beige);padding:9px 12px;font-size:9px;letter-spacing:1.2px;text-transform:uppercase}
-    .detail-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
-    .detail-actions .btn{margin-top:0;flex:1}
-    .instagram-section{background:linear-gradient(120deg,rgba(216,194,163,.055),transparent 65%)}
-    .instagram-panel{display:flex;align-items:center;justify-content:space-between;gap:30px;border:1px solid var(--line);padding:clamp(24px,5vw,54px);background:linear-gradient(135deg,rgba(216,194,163,.07),rgba(255,255,255,.01))}
-    .instagram-panel h2{font:400 clamp(32px,5vw,48px) Georgia,serif;margin:10px 0}
-    .instagram-cta{white-space:nowrap}
-    .overlay.open .modal{animation:heroRise .35s ease both}
-    .has-js [data-reveal]{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
-    .has-js [data-reveal].is-visible{opacity:1;transform:translateY(0)}
-    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
-    @media(max-width:760px){.instagram-panel{align-items:flex-start;flex-direction:column}.instagram-cta{white-space:normal}}
-    @media(max-width:760px){.nav{height:66px}.navlinks{gap:12px}.navlinks a{display:none}.brand{font-size:17px}.hero{min-height:490px}.hero-inner{padding:70px 0}.products{grid-template-columns:repeat(2,1fr);gap:12px}.product-image{height:250px}.product-name{font-size:17px}.about-grid,.detail-grid{grid-template-columns:1fr;gap:22px}.detail-image{height:330px}.modal{padding:22px 16px;margin:2vh auto}.section{padding:60px 0}}
-    @media(max-width:430px){.products{grid-template-columns:1fr 1fr}.product-image{height:205px}.navlinks button{font-size:10px}.cartbtn{padding:9px 10px}.hero h1{letter-spacing:-2px}}
+    :root{--black:#080808;--black-2:#10100f;--panel:#151513;--panel-2:#1b1a17;--beige:#d8c2a3;--ivory:#e8dcc8;--muted:#a99d8e;--line:rgba(216,194,163,.19);--green:#b5c4a1;--danger:#d88f83;--serif:Georgia,'Times New Roman',serif;--sans:Arial,Helvetica,sans-serif;--ease:cubic-bezier(.2,.75,.25,1)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;background:var(--black)}body{margin:0;background:var(--black);color:var(--ivory);font-family:var(--sans);-webkit-font-smoothing:antialiased}body,button,input,select,textarea{font-family:var(--sans)}button,a{-webkit-tap-highlight-color:transparent}button{cursor:pointer}a{color:inherit}.shell{width:min(1240px,calc(100% - 52px));margin-inline:auto}.announcement{height:34px;display:flex;align-items:center;justify-content:center;padding:0 14px;background:#11100e;border-bottom:1px solid var(--line);color:var(--muted);font-size:9px;letter-spacing:2.4px;text-transform:uppercase;text-align:center}
+    .site-header{position:sticky;top:0;z-index:30;background:rgba(8,8,8,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}.nav{height:78px;display:flex;align-items:center;justify-content:space-between;gap:28px}.brand{display:inline-flex;align-items:center;gap:9px;color:var(--ivory);text-decoration:none;font-size:19px;font-weight:800;letter-spacing:4px;white-space:nowrap}.brand-mark{width:25px;height:25px;border:1px solid var(--beige);display:grid;place-items:center;color:var(--beige);font:italic 14px var(--serif);letter-spacing:0}.nav-links{display:flex;align-items:center;gap:30px}.nav-links a,.nav-links button{position:relative;padding:9px 0;border:0;background:none;color:var(--muted);text-decoration:none;text-transform:uppercase;font-size:9px;letter-spacing:1.9px;transition:color .25s}.nav-links a:after{content:"";position:absolute;left:0;right:100%;bottom:2px;height:1px;background:var(--beige);transition:right .3s var(--ease)}.nav-links a:hover,.nav-links button:hover{color:var(--ivory)}.nav-links a:hover:after{right:0}.nav-actions{display:flex;align-items:center;gap:12px}.cart-link{display:inline-flex;align-items:center;gap:10px;padding:12px 15px;border:1px solid var(--beige);background:transparent;color:var(--beige);font-size:9px;letter-spacing:1.7px;text-transform:uppercase;transition:background .25s,color .25s,transform .25s}.cart-link:hover{background:var(--beige);color:var(--black);transform:translateY(-2px)}.cart-count{min-width:18px;height:18px;display:inline-grid;place-items:center;border-radius:50%;background:var(--beige);color:var(--black);font-size:10px;letter-spacing:0}.menu-toggle{display:none;width:42px;height:42px;border:1px solid var(--line);background:transparent;color:var(--ivory);font-size:19px}
+    .hero{position:relative;min-height:650px;display:flex;align-items:center;overflow:hidden;border-bottom:1px solid var(--line);background:radial-gradient(ellipse at 75% 48%,rgba(216,194,163,.13),transparent 39%),linear-gradient(115deg,#080808 20%,#100f0d 100%)}.hero:before,.hero:after{content:"";position:absolute;pointer-events:none}.hero:before{width:540px;height:540px;right:-110px;top:45px;border:1px solid rgba(216,194,163,.12);border-radius:50%;box-shadow:0 0 0 42px rgba(216,194,163,.025),0 0 0 84px rgba(216,194,163,.018);animation:orbit 28s linear infinite}.hero:after{width:280px;height:420px;right:11%;top:120px;border:1px solid rgba(216,194,163,.12);transform:rotate(25deg);animation:float 8s ease-in-out infinite}.hero-content{position:relative;z-index:1;max-width:760px;padding:105px 0 115px}.eyebrow{display:inline-flex;align-items:center;gap:12px;color:var(--beige);font-size:9px;letter-spacing:3px;text-transform:uppercase}.eyebrow:before{content:"";width:28px;height:1px;background:var(--beige)}.hero h1{max-width:760px;margin:25px 0 22px;font:400 clamp(58px,9vw,112px)/.91 var(--serif);letter-spacing:-4.5px}.hero h1 em{color:var(--beige);font-weight:400}.hero-copy{max-width:470px;color:var(--muted);font-size:13px;line-height:1.9}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:33px}.button{min-height:49px;display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:0 22px;border:1px solid var(--beige);background:var(--beige);color:var(--black);text-decoration:none;text-transform:uppercase;font-weight:700;font-size:9px;letter-spacing:1.8px;transition:transform .25s var(--ease),background .25s,color .25s,border-color .25s}.button:hover{transform:translateY(-3px);background:var(--ivory);border-color:var(--ivory)}.button.secondary{background:transparent;color:var(--beige)}.button.secondary:hover{background:var(--beige);color:var(--black)}.button:disabled{opacity:.5;cursor:not-allowed;transform:none}.hero-note{position:absolute;right:0;bottom:36px;color:rgba(232,220,200,.48);font:italic 14px var(--serif);letter-spacing:1px;writing-mode:vertical-rl}
+    .section{padding:100px 0;border-bottom:1px solid var(--line)}.section-head{display:flex;align-items:end;justify-content:space-between;gap:28px;margin-bottom:38px}.section-kicker{color:var(--beige);font-size:9px;letter-spacing:2.7px;text-transform:uppercase}.section-title{margin:12px 0 0;font:400 clamp(36px,5.2vw,59px)/1.03 var(--serif);letter-spacing:-1.5px}.section-description{max-width:360px;color:var(--muted);font-size:12px;line-height:1.8}.catalog-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:38px 22px}.product-card{min-width:0;position:relative}.product-media{position:relative;display:block;aspect-ratio:4/5;overflow:hidden;background:#171613;border:1px solid rgba(216,194,163,.12);text-decoration:none}.product-media img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .9s var(--ease),filter .6s}.product-card:hover .product-media img{transform:scale(1.055);filter:brightness(.82)}.image-fallback{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(145deg,#1d1b17,#0d0d0c);color:rgba(216,194,163,.7);font:italic 38px var(--serif);letter-spacing:5px}.product-label{position:absolute;top:15px;left:15px;padding:8px 10px;background:rgba(8,8,8,.7);border:1px solid rgba(216,194,163,.2);color:var(--beige);font-size:8px;letter-spacing:1.8px;text-transform:uppercase}.product-quick{position:absolute;left:14px;right:14px;bottom:14px;min-height:45px;display:flex;align-items:center;justify-content:center;background:rgba(8,8,8,.9);border:1px solid rgba(216,194,163,.6);color:var(--ivory);text-decoration:none;font-size:9px;letter-spacing:1.8px;text-transform:uppercase;transform:translateY(12px);opacity:0;transition:opacity .35s,transform .35s var(--ease),background .25s}.product-card:hover .product-quick,.product-quick:focus{opacity:1;transform:translateY(0)}.product-quick:hover{background:var(--beige);color:var(--black)}.product-info{display:flex;align-items:start;justify-content:space-between;gap:14px;padding:17px 2px 0}.product-name{margin:0;color:var(--ivory);font:400 21px/1.15 var(--serif)}.product-reference{margin-top:8px;color:var(--muted);font-size:8px;letter-spacing:2px;text-transform:uppercase}.product-price{padding-top:3px;color:var(--beige);font-size:11px;white-space:nowrap;letter-spacing:.5px}.empty-state{grid-column:1/-1;padding:54px 20px;border:1px solid var(--line);color:var(--muted);text-align:center;font:italic 19px var(--serif)}
+    .manifesto{display:grid;grid-template-columns:1fr .8fr;gap:80px;align-items:center}.manifesto-copy{max-width:660px}.manifesto-copy p{color:var(--muted);font-size:14px;line-height:2}.manifesto-art{position:relative;min-height:330px;display:grid;place-items:center;border:1px solid var(--line);background:radial-gradient(circle at 50% 50%,rgba(216,194,163,.09),transparent 58%),#11100e;overflow:hidden}.manifesto-art:before{content:"";position:absolute;width:210px;height:210px;border:1px solid rgba(216,194,163,.25);transform:rotate(45deg)}.manifesto-art span{position:relative;color:var(--beige);font:italic 57px var(--serif);letter-spacing:4px}.instagram-band{padding:46px 0;background:#12110f;border-bottom:1px solid var(--line)}.instagram-row{display:flex;align-items:center;justify-content:space-between;gap:22px}.instagram-row h2{margin:0;font:400 clamp(27px,4vw,42px) var(--serif)}.instagram-row p{margin:9px 0 0;color:var(--muted);font-size:11px;line-height:1.7}.instagram-link{flex:0 0 auto}.site-footer{padding:36px 0;color:var(--muted);font-size:9px;letter-spacing:1.5px;text-transform:uppercase}.footer-row{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}.footer-brand{color:var(--ivory);font-size:12px;letter-spacing:3px}.footer-row a{color:var(--beige);text-decoration:none}
+    .page-heading{padding:75px 0 48px;border-bottom:1px solid var(--line);background:radial-gradient(ellipse at 80% 0,rgba(216,194,163,.09),transparent 40%)}.page-heading h1{margin:16px 0 12px;font:400 clamp(48px,7vw,78px)/.98 var(--serif);letter-spacing:-2px}.page-heading p{margin:0;max-width:560px;color:var(--muted);font-size:12px;line-height:1.8}.page-catalog{padding-top:52px}
+    .detail-layout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(340px,.85fr);gap:70px;padding:70px 0 95px}.detail-gallery{min-width:0}.detail-main-image{position:relative;aspect-ratio:4/5;background:#171613;border:1px solid var(--line);overflow:hidden}.detail-main-image img{width:100%;height:100%;object-fit:cover;display:block}.detail-main-image .image-fallback{font-size:52px}.detail-info{position:sticky;top:125px;align-self:start;padding-top:12px}.back-link{display:inline-flex;gap:9px;margin-bottom:36px;color:var(--muted);text-decoration:none;font-size:9px;letter-spacing:1.6px;text-transform:uppercase;transition:color .2s}.back-link:hover{color:var(--beige)}.detail-name{margin:0;font:400 clamp(39px,5vw,59px)/1.02 var(--serif);letter-spacing:-1.5px}.detail-reference{margin-top:13px;color:var(--muted);font-size:9px;letter-spacing:2px;text-transform:uppercase}.detail-price{margin:25px 0;color:var(--beige);font-size:16px;letter-spacing:.5px}.detail-description{max-width:520px;padding:21px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);color:#c0b4a4;font-size:12px;line-height:1.95;white-space:pre-line}.option-group{margin-top:26px}.option-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;color:var(--ivory);font-size:9px;letter-spacing:1.8px;text-transform:uppercase}.option-current{color:var(--muted);letter-spacing:.5px;text-transform:none}.option-list{display:flex;gap:9px;flex-wrap:wrap}.option-button{min-width:46px;min-height:42px;padding:0 14px;border:1px solid rgba(216,194,163,.27);background:transparent;color:var(--muted);font-size:10px;transition:all .2s}.option-button:hover,.option-button.is-selected{border-color:var(--beige);background:var(--beige);color:var(--black)}.quantity-control{display:inline-flex;align-items:center;border:1px solid var(--line);min-height:43px}.quantity-control button{width:42px;height:41px;border:0;background:transparent;color:var(--ivory);font-size:18px}.quantity-control span{width:38px;text-align:center;font-size:12px}.detail-buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px}.detail-buttons .button{flex:1}.stock-note{margin-top:17px;color:var(--muted);font-size:10px;letter-spacing:.6px}.stock-note.low{color:var(--beige)}.stock-note.out{color:var(--danger)}
+    .cart-page,.checkout-page,.confirmation-page{padding:68px 0 100px}.cart-heading,.checkout-heading{margin-bottom:35px}.cart-heading h1,.checkout-heading h1,.confirmation-page h1{margin:12px 0;font:400 clamp(43px,6vw,66px)/1 var(--serif)}.cart-layout{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(280px,.6fr);gap:55px;align-items:start}.cart-list{border-top:1px solid var(--line)}.cart-item{display:grid;grid-template-columns:112px minmax(0,1fr) auto;gap:19px;align-items:center;padding:20px 0;border-bottom:1px solid var(--line)}.cart-thumb{width:112px;aspect-ratio:4/5;position:relative;background:#171613;overflow:hidden}.cart-thumb img{width:100%;height:100%;object-fit:cover}.cart-item h3{margin:0 0 9px;font:400 19px var(--serif)}.cart-item-meta{color:var(--muted);font-size:10px;line-height:1.8}.cart-item-price{margin-top:10px;color:var(--beige);font-size:11px}.cart-item-actions{display:flex;align-items:center;gap:10px}.mini-qty{display:flex;align-items:center;border:1px solid var(--line)}.mini-qty button{width:29px;height:30px;border:0;background:none;color:var(--ivory)}.mini-qty span{min-width:23px;text-align:center;font-size:10px}.remove-button{border:0;background:none;color:var(--muted);font-size:9px;text-decoration:underline;text-underline-offset:3px}.summary-card{padding:25px;border:1px solid var(--line);background:#11100f}.summary-card h2{margin:0 0 23px;font:400 25px var(--serif)}.summary-row{display:flex;justify-content:space-between;gap:14px;margin:13px 0;color:var(--muted);font-size:11px}.summary-row strong{color:var(--ivory);font-weight:400}.summary-total{margin-top:21px;padding-top:19px;border-top:1px solid var(--line);color:var(--ivory);font-size:12px}.summary-total strong{color:var(--beige);font-size:17px}.summary-card .button{width:100%;margin-top:22px}.continue-link{display:inline-block;margin-top:24px;color:var(--muted);font-size:9px;letter-spacing:1.4px;text-transform:uppercase;text-decoration:none}.continue-link:hover{color:var(--beige)}.empty-cart{padding:65px 20px;border:1px solid var(--line);text-align:center}.empty-cart h2{font:400 30px var(--serif)}.empty-cart p{color:var(--muted);font-size:12px}
+    .checkout-layout{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:54px;align-items:start}.checkout-form{display:grid;grid-template-columns:1fr 1fr;gap:18px}.form-field{display:flex;flex-direction:column;gap:9px}.form-field.full{grid-column:1/-1}.form-field label{color:var(--muted);font-size:9px;letter-spacing:1.5px;text-transform:uppercase}.form-field input,.form-field textarea,.form-field select{width:100%;min-height:48px;padding:13px 14px;border:1px solid rgba(216,194,163,.22);border-radius:0;outline:none;background:#11100f;color:var(--ivory);font-size:12px;transition:border-color .2s,background .2s}.form-field textarea{min-height:94px;resize:vertical}.form-field input:focus,.form-field textarea:focus,.form-field select:focus{border-color:var(--beige);background:#151310}.form-field input::placeholder,.form-field textarea::placeholder{color:#70675d}.payment-box{grid-column:1/-1;padding:18px;border:1px solid var(--line);background:#11100f}.payment-title{color:var(--beige);font-size:9px;letter-spacing:1.6px;text-transform:uppercase}.payment-box p{margin:9px 0 0;color:var(--muted);font-size:11px;line-height:1.7}.form-actions{grid-column:1/-1;display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:7px}.form-actions .button{min-width:230px}.form-note{color:var(--muted);font-size:10px;line-height:1.6}.checkout-summary-item{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid rgba(216,194,163,.1);color:var(--muted);font-size:10px;line-height:1.6}.checkout-summary-item strong{color:var(--ivory);font-weight:400}.confirmation-page{text-align:center;min-height:65vh;display:flex;align-items:center;justify-content:center}.confirmation-inner{max-width:640px}.success-mark{width:66px;height:66px;margin:0 auto 26px;display:grid;place-items:center;border:1px solid var(--beige);border-radius:50%;color:var(--beige);font-size:25px;animation:popIn .55s var(--ease) both}.confirmation-page p{color:var(--muted);font-size:12px;line-height:1.9}.order-number{margin:25px 0;padding:16px;border:1px solid var(--line);color:var(--beige);font-size:11px;letter-spacing:1px}
+    .toast{position:fixed;left:50%;bottom:28px;z-index:80;max-width:min(92vw,440px);padding:15px 20px;background:var(--ivory);color:var(--black);font-size:11px;line-height:1.5;box-shadow:0 14px 45px rgba(0,0,0,.3);opacity:0;transform:translate(-50%,20px);pointer-events:none;transition:opacity .25s,transform .25s}.toast.show{opacity:1;transform:translate(-50%,0)}.loading-state{grid-column:1/-1;padding:50px;text-align:center;color:var(--muted);font:italic 18px var(--serif)}.error-box{margin:25px auto;padding:16px;border:1px solid rgba(216,143,131,.35);color:#e0aaa1;font-size:11px;line-height:1.7}.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}.reveal.is-visible{opacity:1;transform:translateY(0)}.page-fade{animation:pageIn .48s var(--ease) both}.stagger-1{transition-delay:.07s}.stagger-2{transition-delay:.14s}.stagger-3{transition-delay:.21s}.visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @keyframes pageIn{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}@keyframes orbit{to{transform:rotate(360deg)}}@keyframes float{0%,100%{transform:rotate(25deg) translateY(0)}50%{transform:rotate(25deg) translateY(-16px)}}@keyframes popIn{from{opacity:0;transform:scale(.75)}to{opacity:1;transform:scale(1)}}
+    @media(max-width:900px){.shell{width:min(100% - 38px,720px)}.nav{height:70px}.nav-links{gap:18px}.hero{min-height:590px}.hero:before{right:-240px}.hero:after{right:-2%}.catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 17px}.product-media{aspect-ratio:4/5}.manifesto{gap:35px}.detail-layout{gap:38px;grid-template-columns:1fr 1fr}.cart-layout{gap:28px}.checkout-layout{grid-template-columns:minmax(0,1fr) 300px;gap:28px}}
+    @media(max-width:640px){.shell{width:calc(100% - 32px)}.announcement{font-size:8px;letter-spacing:1.5px}.nav{height:65px}.brand{font-size:16px;letter-spacing:3px}.nav-links{display:none;position:absolute;left:0;right:0;top:65px;padding:18px 20px 22px;background:#0c0c0b;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;gap:9px}.nav-links.is-open{display:flex}.nav-links a{padding:12px 0}.menu-toggle{display:grid;place-items:center}.cart-link{padding:10px 11px;font-size:8px;gap:7px}.hero{min-height:610px}.hero-content{padding:90px 0 105px}.hero h1{font-size:clamp(54px,14vw,78px);letter-spacing:-2.8px}.hero:before{width:380px;height:380px;right:-240px;top:110px}.hero:after{height:300px;right:-26%;top:200px}.hero-note{right:0;bottom:19px}.section{padding:68px 0}.section-head{display:block}.section-description{margin-top:16px}.catalog-grid{gap:27px 12px}.product-name{font-size:17px}.product-price{font-size:10px}.product-media{aspect-ratio:3/4}.product-label{top:9px;left:9px;padding:6px 7px;font-size:7px}.product-quick{left:7px;right:7px;bottom:7px;min-height:38px;font-size:8px;opacity:1;transform:none}.product-info{gap:7px;padding-top:12px}.product-reference{font-size:7px;letter-spacing:1.2px}.manifesto{grid-template-columns:1fr;gap:28px}.manifesto-art{min-height:230px}.manifesto-copy p{font-size:12px}.instagram-row{align-items:flex-start;flex-direction:column}.instagram-link{width:100%}.detail-layout{display:flex;flex-direction:column;gap:26px;padding:28px 0 65px}.detail-info{position:static;padding:0}.back-link{margin-bottom:24px}.detail-name{font-size:43px}.detail-buttons{flex-direction:column}.detail-buttons .button{width:100%}.cart-page,.checkout-page{padding:48px 0 70px}.cart-layout,.checkout-layout{grid-template-columns:1fr;gap:28px}.cart-item{grid-template-columns:82px minmax(0,1fr);gap:13px}.cart-thumb{width:82px}.cart-item-actions{grid-column:2;justify-content:flex-start}.cart-item h3{font-size:17px}.checkout-form{grid-template-columns:1fr;gap:15px}.form-field.full,.payment-box,.form-actions{grid-column:1}.checkout-summary{order:-1}.summary-card{padding:20px}.form-actions .button{width:100%}.page-heading{padding:54px 0 36px}.page-heading h1{font-size:53px}.footer-row{align-items:flex-start;flex-direction:column;gap:13px}.toast{bottom:16px}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
   </style>
 </head>
 <body>
-  <div class="topline">INDEPENDENT CREATIVE ARCHIVE FROM MOROCCO · ORIGINAL ART · WEARABLE ARTIFACTS</div>
-  <header><div class="wrap nav"><a class="brand" href="#home">AIT<span>.</span>CREATIVE</a><nav class="navlinks"><a href="#home">Accueil</a><a href="#collection">Collection</a><a href="#about">À propos</a><a id="navInstagram" href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a><button class="cartbtn" id="openCart">PANIER (<span id="cartCount">0</span>)</button></nav></div></header>
-  <main>
-    <section class="hero" id="home"><div class="wrap hero-inner"><div class="eyebrow">Morocco · Independent label</div><h1>Wearable<br><em>Artifacts.</em></h1><p>Une archive créative indépendante née au Maroc. Des pièces pensées comme des objets d’expression, entre art original, identité et vêtement.</p><a class="btn" href="#collection">Découvrir la collection</a></div></section>
-    <section class="section" id="collection"><div class="wrap"><div class="section-head" data-reveal><div><div class="eyebrow">The archive</div><h2>Collection</h2></div><div class="sub">Pièces sélectionnées.<br>Quantités limitées.</div></div><div id="products" class="products"><div class="loading">Chargement de la collection…</div></div></div></section>
-    <section class="section" id="about"><div class="wrap about-grid" data-reveal><div><div class="eyebrow">Our point of view</div><h2>Original art.<br><em style="color:var(--beige)">Wearable artifacts.</em></h2><p class="sub">AIT CREATIVE est un archive créatif indépendant du Maroc. Chaque pièce est conçue pour porter une idée, une image et une identité. Pas simplement un vêtement : un artefact à porter.</p></div><div class="about-mark">AIT CREATIVE</div></div></section>
-    <section class="section instagram-section" id="instagram"><div class="wrap instagram-panel" data-reveal><div><div class="eyebrow">Join the archive</div><h2>Follow the<br><em style="color:var(--beige)">creative archive.</em></h2><p class="sub">Découvrez les nouvelles pièces, les sorties et les coulisses de AIT CREATIVE sur Instagram.</p></div><a class="btn ghost instagram-cta" id="instagramLink" href="https://www.instagram.com/" target="_blank" rel="noopener">Suivre sur Instagram ↗</a></div></section>
+  <div class="announcement">Independent creative archive · Made in Morocco</div>
+  <header class="site-header">
+    <div class="shell nav">
+      <a class="brand" href="#/" aria-label="AIT CREATIVE home"><span class="brand-mark">A</span>AIT CREATIVE</a>
+      <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+        <a href="#/">Home</a><a href="#/collection">Collection</a><a href="#/about">The archive</a><a id="navInstagram" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
+      </nav>
+      <div class="nav-actions"><a class="cart-link" href="#/cart">Bag <span class="cart-count" id="cartCount">0</span></a><button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button></div>
+    </div>
+  </header>
+  <main id="app" class="page-fade">
+    <section class="hero"><div class="shell hero-content"><div class="eyebrow">Morocco · Independent label</div><h1>Original Art.<br><em>Wearable</em><br>Artifacts.</h1><p class="hero-copy">A creative archive shaped by culture, image and everyday expression. Designed in Morocco. Made to be worn your own way.</p><div class="hero-actions"><a class="button" href="#/collection">Explore collection <span>↗</span></a><a class="button secondary" href="#/about">Our point of view</a></div></div><div class="hero-note">A DIFFERENT FORM OF EVERYDAY</div></section>
+    <section class="section"><div class="shell"><div class="section-head"><div><div class="section-kicker">01 / Selected pieces</div><h2 class="section-title">The collection</h2></div><p class="section-description">A considered selection of wearable artifacts. Explore each piece, choose your details and make it yours.</p></div><div class="catalog-grid" id="productGrid">__AIT_SERVER_CARDS__</div></div></section>
+    <section class="section"><div class="shell manifesto"><div class="manifesto-copy"><div class="section-kicker">02 / Our point of view</div><h2 class="section-title">More than<br>something to wear.</h2><p>AIT CREATIVE is an independent creative archive from Morocco. We bring original art into everyday life through considered pieces, visual stories and a point of view that stays personal.</p><a class="button secondary" href="#/about">Discover the archive</a></div><div class="manifesto-art"><span>AIT.</span></div></div></section>
+    <section class="instagram-band"><div class="shell instagram-row"><div><h2>Follow the archive.</h2><p>New pieces, visual notes and everything happening behind AIT CREATIVE.</p></div><a class="button secondary instagram-link" id="instagramLink" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Follow on Instagram ↗</a></div></section>
   </main>
-  <footer><div class="wrap footer-row"><span>© <span id="year"></span> AIT CREATIVE · MOROCCO</span><span>ORIGINAL ART. WEARABLE ARTIFACTS.</span></div></footer>
+  <footer class="site-footer"><div class="shell footer-row"><span class="footer-brand">AIT CREATIVE</span><span>Independent creative archive · Morocco</span><a id="footerInstagram" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram ↗</a><span>© <span id="year"></span> AIT CREATIVE</span></div></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>
+  (function(){
+    'use strict';
+    var INITIAL_PRODUCTS = __AIT_INITIAL_PRODUCTS__;
+    var INITIAL_SETTINGS = __AIT_INITIAL_SETTINGS__;
+    var INITIAL_ERROR = __AIT_INITIAL_ERROR__;
+    var products = Array.isArray(INITIAL_PRODUCTS) ? INITIAL_PRODUCTS : [];
+    var settings = INITIAL_SETTINGS || {};
+    var app = document.getElementById('app');
+    var toastTimer = null;
+    var detailColor = '';
+    var detailSize = '';
+    var detailQty = 1;
+    var lastOrder = null;
+    var cart = loadCart();
 
-  <div class="overlay" id="detailOverlay"><div class="modal"><button class="close" data-close="detailOverlay">×</button><div id="detailContent"></div></div></div>
-  <div class="overlay" id="cartOverlay"><div class="modal"><button class="close" data-close="cartOverlay">×</button><div class="eyebrow">Your selection</div><h2 style="font:38px Georgia,serif">Votre panier</h2><div id="cartItems"></div><div id="cartTotals"></div><button class="btn" id="checkoutBtn">Passer la commande</button></div></div>
-  <div class="overlay" id="checkoutOverlay"><div class="modal"><button class="close" data-close="checkoutOverlay">×</button><div class="eyebrow">Final step</div><h2 style="font:38px Georgia,serif">Informations de livraison</h2><div class="notice">Paiement à la livraison (Cash on Delivery). Nous vous contacterons pour confirmer votre commande.</div><form id="checkoutForm"><div class="field"><label>Nom complet *</label><input name="name" required autocomplete="name"></div><div class="field"><label>Téléphone marocain *</label><input name="phone" required placeholder="06XXXXXXXX" inputmode="tel" autocomplete="tel"></div><div class="field"><label>Ville *</label><input name="city" required autocomplete="address-level2"></div><div class="field"><label>Adresse complète *</label><textarea name="address" required autocomplete="street-address"></textarea></div><div class="field"><label>Email (optionnel)</label><input name="email" type="email" autocomplete="email"></div><div class="field"><label>Instructions de livraison (optionnel)</label><textarea name="instructions"></textarea></div><button class="btn" id="submitOrder" type="submit">Confirmer la commande · COD</button></form></div></div>
-  <div class="overlay" id="successOverlay"><div class="modal" style="max-width:560px;text-align:center"><div class="eyebrow">Order received</div><h2 style="font:40px Georgia,serif">Merci.</h2><p class="sub" id="successMessage">Votre commande a bien été reçue.</p><div class="notice" id="successNumber"></div><button class="btn" data-close="successOverlay">Continuer</button></div></div>
-  <div class="toast" id="toast"></div>
-
-<script>
-(function(){
-  'use strict';
-  var products = __AIT_INITIAL_PRODUCTS__;
-  var settings = __AIT_INITIAL_SETTINGS__;
-  var cart = [];
-  var selectedProduct = null;
-  var selectedColor = '';
-  var selectedSize = '';
-  var selectedQty = 1;
-  var money = function(n){ return new Intl.NumberFormat('fr-MA',{maximumFractionDigits:0}).format(Number(n)||0) + ' MAD'; };
-  var byId = function(id){ return document.getElementById(id); };
-  var escapeHtml = function(s){ return String(s == null ? '' : s).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c];}); };
-  var imageUrls = function(value){ return String(value||'').split(/[,،;\n]/).map(function(x){return x.trim();}).filter(Boolean).map(function(url){
-    var m = url.match(/drive\.google\.com\/file\/d\/([^/]+)/i) || url.match(/[?&]id=([^&]+)/i);
-    if(m) return 'https://drive.google.com/thumbnail?id=' + m[1] + '&sz=w1200';
-    return url;
-  }); };
-  var imageMarkup = function(value, cls){ var urls=imageUrls(value); return urls.length ? '<img class="'+(cls||'')+'" src="'+escapeHtml(urls[0])+'" alt="AIT CREATIVE product" onerror="this.style.display=\'none\'">' : '<div class="placeholder">AIT.</div>'; };
-  var toast = function(message){ var el=byId('toast');el.textContent=message;el.classList.add('show');setTimeout(function(){el.classList.remove('show');},3000); };
-  var show = function(id){byId(id).classList.add('open');};
-  var hide = function(id){byId(id).classList.remove('open');};
-  var getProduct = function(id){return products.find(function(p){return p.product_id===id;});};
-  var renderProducts = function(){
-    var root=byId('products');
-    if(!products.length){root.innerHTML='<div class="empty" style="grid-column:1/-1">La collection sera bientôt disponible.</div>';return;}
-    root.innerHTML=products.map(function(p){
-      var n=p.product_name_fr||p.product_name_en||'AIT CREATIVE';
-      var im=imageMarkup(p.images,'');
-      return '<article class="product" data-product="'+escapeHtml(p.product_id)+'" data-reveal><div class="product-image">'+im+'</div><div class="product-meta"><div><div class="product-name">'+escapeHtml(n)+'</div><div class="small-ref">'+escapeHtml(p.reference||'AIT CREATIVE')+'</div></div><div class="price">'+money(p.price_mad)+'</div></div><div class="product-actions"><span class="small-ref">Voir les détails</span><button type="button" class="quick-order" data-order="'+escapeHtml(p.product_id)+'">Commander</button></div></article>';
-    }).join('');
-    Array.prototype.forEach.call(root.querySelectorAll('.product'),function(el){el.addEventListener('click',function(){openProduct(el.getAttribute('data-product'));});});
-    Array.prototype.forEach.call(root.querySelectorAll('[data-order]'),function(button){button.addEventListener('click',function(event){event.stopPropagation();openProduct(button.getAttribute('data-order'));});});
-    setupReveal();
-  };
-  var openProduct = function(id){
-    var p=getProduct(id);if(!p)return;selectedProduct=p;selectedColor=(p.colors&&p.colors[0])||'Noir';selectedSize=(p.sizes&&p.sizes[0])||'M';selectedQty=1;
-    byId('detailContent').innerHTML='<div class="detail-grid"><div class="detail-image">'+imageMarkup(p.images,'')+'</div><div class="detail"><div class="eyebrow">'+escapeHtml(p.reference||'AIT CREATIVE')+'</div><h2>'+escapeHtml(p.product_name_fr||p.product_name_en||'')+'</h2><div class="detail-price">'+money(p.price_mad)+'</div><p class="detail-desc">'+escapeHtml(p.description||'Original art. Wearable artifacts.')+'</p><div class="field"><label>Couleur</label><div class="choices" id="colorChoices">'+(p.colors||['Noir','Beige']).map(function(c){return '<button type="button" class="choice '+(c===selectedColor?'selected':'')+'" data-color="'+escapeHtml(c)+'">'+escapeHtml(c)+'</button>';}).join('')+'</div></div><div class="field"><label>Taille</label><div class="choices" id="sizeChoices">'+(p.sizes||['S','M','L','XL','XXL']).map(function(s){return '<button type="button" class="choice '+(s===selectedSize?'selected':'')+'" data-size="'+escapeHtml(s)+'">'+escapeHtml(s)+'</button>';}).join('')+'</div></div><div class="field"><label>Quantité</label><div class="qty"><button type="button" id="qtyMinus">−</button><span id="detailQty">1</span><button type="button" id="qtyPlus">+</button></div></div><div class="detail-actions"><button class="btn" id="addToCart">Ajouter au panier</button><button class="btn ghost" id="buyNow">Commander maintenant</button></div></div></div>';
-    Array.prototype.forEach.call(byId('colorChoices').querySelectorAll('[data-color]'),function(b){b.addEventListener('click',function(){selectedColor=b.getAttribute('data-color');Array.prototype.forEach.call(byId('colorChoices').children,function(x){x.classList.toggle('selected',x===b);});});});
-    Array.prototype.forEach.call(byId('sizeChoices').querySelectorAll('[data-size]'),function(b){b.addEventListener('click',function(){selectedSize=b.getAttribute('data-size');Array.prototype.forEach.call(byId('sizeChoices').children,function(x){x.classList.toggle('selected',x===b);});});});
-    byId('qtyMinus').onclick=function(){selectedQty=Math.max(1,selectedQty-1);byId('detailQty').textContent=selectedQty;};
-    byId('qtyPlus').onclick=function(){selectedQty=Math.min(10,selectedQty+1);byId('detailQty').textContent=selectedQty;};
-    byId('addToCart').onclick=function(){addCart(p,selectedColor,selectedSize,selectedQty);hide('detailOverlay');};
-    byId('buyNow').onclick=function(){addCart(p,selectedColor,selectedSize,selectedQty);hide('detailOverlay');renderCart();show('checkoutOverlay');};
-    show('detailOverlay');
-  };
-  var addCart = function(p,color,size,qty){
-    var found=cart.find(function(x){return x.product_id===p.product_id&&x.color===color&&x.size===size;});
-    if(found)found.quantity=Math.min(10,found.quantity+qty);else cart.push({product_id:p.product_id,color:color,size:size,quantity:qty});
-    renderCartCount();toast('Produit ajouté au panier.');
-  };
-  var renderCartCount=function(){byId('cartCount').textContent=cart.reduce(function(s,x){return s+x.quantity;},0);};
-  var subtotal=function(){return cart.reduce(function(sum,x){var p=getProduct(x.product_id);return sum+(p?Number(p.price_mad)*x.quantity:0);},0);};
-  var renderCart=function(){
-    var root=byId('cartItems');
-    if(!cart.length){root.innerHTML='<div class="empty">Votre panier est vide.</div>';byId('cartTotals').innerHTML='';byId('checkoutBtn').style.display='none';return;}
-    byId('checkoutBtn').style.display='inline-flex';
-    root.innerHTML=cart.map(function(x,i){var p=getProduct(x.product_id)||{};return '<div class="cart-line"><div class="cart-thumb">'+imageMarkup(p.images,'')+'</div><div><h4>'+escapeHtml(p.product_name_fr||p.product_name_en||'Produit')+'</h4><small>'+escapeHtml(x.color)+' · '+escapeHtml(x.size)+' · Qté '+x.quantity+'</small><div class="price" style="margin-top:7px">'+money((p.price_mad||0)*x.quantity)+'</div></div><button class="choice" data-remove="'+i+'">Retirer</button></div>';}).join('');
-    Array.prototype.forEach.call(root.querySelectorAll('[data-remove]'),function(b){b.onclick=function(){cart.splice(Number(b.getAttribute('data-remove')),1);renderCart();renderCartCount();};});
-    byId('cartTotals').innerHTML='<div class="totals"><div class="total-row"><span>Sous-total</span><span>'+money(subtotal())+'</span></div><div class="total-row"><span>Livraison</span><span>'+money(settings.delivery_fee_mad)+'</span></div><div class="total-row final"><strong>Total</strong><strong>'+money(subtotal()+Number(settings.delivery_fee_mad||0))+'</strong></div></div>';
-  };
-  var setupReveal=function(){
-    document.documentElement.classList.add('has-js');
-    var nodes=document.querySelectorAll('[data-reveal]');
-    if(!('IntersectionObserver' in window)){Array.prototype.forEach.call(nodes,function(n){n.classList.add('is-visible');});return;}
-    var observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target);}});},{threshold:0.12});
-    Array.prototype.forEach.call(nodes,function(n){if(!n.classList.contains('is-visible'))observer.observe(n);});
-  };
-  var loadProducts=async function(){
-    try{
-      var response=await fetch('/api/products',{headers:{'Accept':'application/json'},cache:'no-store'});
-      var data=await response.json();
-      if(!response.ok||!data.ok)throw new Error(data.error||'Impossible de charger les produits.');
-      products=data.products||[];settings=data.settings||settings;
-      var instagramUrl=settings.instagram_url||'https://www.instagram.com/';
-      byId('instagramLink').href=instagramUrl;
-      var navInstagram=byId('navInstagram');if(navInstagram)navInstagram.href=instagramUrl;
-      renderProducts();
-    }catch(err){console.error('AIT CREATIVE products refresh failed:',err);if(!products.length){byId('products').innerHTML='<div class="empty error" style="grid-column:1/-1">Erreur de chargement : '+escapeHtml(err.message)+'<br>Vérifiez la configuration Google Sheets.</div>';}}
-  };
-  byId('openCart').onclick=function(){renderCart();show('cartOverlay');};
-  byId('checkoutBtn').onclick=function(){hide('cartOverlay');show('checkoutOverlay');};
-  byId('checkoutForm').addEventListener('submit',async function(event){
-    event.preventDefault();var form=event.currentTarget;if(!cart.length){toast('Votre panier est vide.');return;}
-    var button=byId('submitOrder');button.disabled=true;button.textContent='Envoi en cours…';
-    var f=new FormData(form);
-    var payload={action:'createOrder',language:'fr',customer:{name:f.get('name'),phone:f.get('phone'),city:f.get('city'),address:f.get('address'),email:f.get('email'),instructions:f.get('instructions')},items:cart.map(function(x){return {product_id:x.product_id,color:x.color,size:x.size,quantity:x.quantity};})};
-    try{
-      var response=await fetch('/api/order',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)});
-      var data=await response.json();
-      if(!response.ok||!data.ok)throw new Error(data.error||'La commande n’a pas pu être envoyée.');
-      hide('checkoutOverlay');cart=[];renderCartCount();form.reset();
-      byId('successMessage').textContent=data.message||'Votre commande a bien été reçue.';
-      byId('successNumber').textContent='Numéro de commande : '+data.order_id+' · Total : '+money(data.total_mad);
-      show('successOverlay');loadProducts();
-    }catch(err){toast(err.message);}
-    finally{button.disabled=false;button.textContent='Confirmer la commande · COD';}
-  });
-  Array.prototype.forEach.call(document.querySelectorAll('[data-close]'),function(b){b.addEventListener('click',function(){hide(b.getAttribute('data-close'));});});
-  Array.prototype.forEach.call(document.querySelectorAll('.overlay'),function(o){o.addEventListener('click',function(e){if(e.target===o)hide(o.id);});});
-  byId('year').textContent=new Date().getFullYear();
-  setupReveal();
-  if(products.length) renderProducts();
-  loadProducts();
-})();
-</script>
+    function byId(id){return document.getElementById(id);}
+    function escapeHtml(value){return String(value == null ? '' : value).replace(/[&<>"']/g,function(ch){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];});}
+    function money(value){return new Intl.NumberFormat('fr-MA',{maximumFractionDigits:0}).format(Number(value)||0)+' MAD';}
+    function getProduct(id){return products.find(function(p){return String(p.product_id)===String(id);})||null;}
+    function splitImages(value){if(Array.isArray(value))return value.map(String).filter(Boolean);return String(value||'').split(/[,،;\\n]/).map(function(x){return x.trim();}).filter(Boolean);}
+    function imageUrl(value){var raw=splitImages(value)[0]||'';var match=raw.match(/drive\\.google\\.com\\/file\\/d\\/([^/]+)/i)||raw.match(/[?&]id=([^&]+)/i);return match?'https://drive.google.com/thumbnail?id='+encodeURIComponent(match[1])+'&sz=w1200':raw;}
+    function imageBlock(value, alt, extraClass){var src=imageUrl(value);return '<div class="'+(extraClass||'product-media')+'"><div class="image-fallback">AIT.</div>'+(src?'<img src="'+escapeHtml(src)+'" alt="'+escapeHtml(alt||'AIT CREATIVE product')+'" loading="lazy" referrerpolicy="no-referrer">':'')+'</div>';}
+    function safeExternalUrl(value){try{var u=new URL(String(value||''));return u.protocol==='https:'?u.href:'https://www.instagram.com/';}catch(e){return 'https://www.instagram.com/';}}
+    function availableColors(p){return Array.isArray(p.colors)&&p.colors.length?p.colors:['Noir','Beige'];}
+    function availableSizes(p){return Array.isArray(p.sizes)&&p.sizes.length?p.sizes:['S','M','L','XL','XXL'];}
+    function stockValue(p){if(p.stock===''||p.stock===null||typeof p.stock==='undefined')return null;var n=Number(p.stock);return Number.isFinite(n)?n:null;}
+    function stockText(p){var n=stockValue(p);if(n===null)return 'Available';if(n<=0)return 'Out of stock';if(n<=5)return 'Only '+n+' left';return n+' pieces available';}
+    function isOutOfStock(p){var n=stockValue(p);return n!==null&&n<=0;}
+    function loadCart(){try{var raw=localStorage.getItem('aitcreative_cart_v1');var data=raw?JSON.parse(raw):[];return Array.isArray(data)?data:[];}catch(e){return [];}}
+    function saveCart(){try{localStorage.setItem('aitcreative_cart_v1',JSON.stringify(cart));}catch(e){}}
+    function cartCount(){return cart.reduce(function(total,item){return total+(Number(item.quantity)||0);},0);}
+    function renderCartCount(){var el=byId('cartCount');if(el)el.textContent=String(cartCount());}
+    function cartSubtotal(){return cart.reduce(function(sum,item){var p=getProduct(item.product_id);return sum+(p?(Number(p.price_mad)||0)*(Number(item.quantity)||0):0);},0);}
+    function deliveryFee(){var n=Number(settings.delivery_fee_mad);return Number.isFinite(n)&&n>=0?n:0;}
+    function showToast(message){var el=byId('toast');if(!el)return;el.textContent=message;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(function(){el.classList.remove('show');},2600);}
+    function updateInstagram(){var url=safeExternalUrl(settings.instagram_url);['navInstagram','instagramLink','footerInstagram'].forEach(function(id){var el=byId(id);if(el)el.href=url;});}
+    function cardMarkup(p,index){var name=p.product_name_fr||p.product_name_en||'AIT CREATIVE';var price=money(p.price_mad);var image=imageUrl(p.images);var imageHtml=image?'<img src="'+escapeHtml(image)+'" alt="'+escapeHtml(name)+'" loading="lazy" referrerpolicy="no-referrer"><div class="image-fallback">AIT.</div>':'<div class="image-fallback">AIT.</div>';return '<article class="product-card reveal stagger-'+((index%3)+1)+'"><a class="product-media" href="#/product/'+encodeURIComponent(p.product_id)+'" aria-label="View '+escapeHtml(name)+'">'+imageHtml+'<span class="product-label">'+(isOutOfStock(p)?'Sold out':'AIT / Original')+'</span><span class="product-quick">Discover piece ↗</span></a><div class="product-info"><div><h3 class="product-name">'+escapeHtml(name)+'</h3><div class="product-reference">'+escapeHtml(p.reference||p.product_id||'AIT CREATIVE')+'</div></div><div class="product-price">'+price+'</div></div></article>';}
+    function setupReveal(){var nodes=document.querySelectorAll('.reveal');if(!('IntersectionObserver' in window)||window.matchMedia('(prefers-reduced-motion: reduce)').matches){nodes.forEach(function(n){n.classList.add('is-visible');});return;}var observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target);}});},{threshold:.1});nodes.forEach(function(n){if(!n.classList.contains('is-visible'))observer.observe(n);});}
+    function homeView(){var cards=products.length?products.map(cardMarkup).join(''):'<div class="empty-state">'+(INITIAL_ERROR?'The collection could not be loaded. '+escapeHtml(INITIAL_ERROR):'The collection is being prepared. Please check back soon.')+'</div>';return '<section class="hero"><div class="shell hero-content"><div class="eyebrow">Morocco · Independent label</div><h1>Original Art.<br><em>Wearable</em><br>Artifacts.</h1><p class="hero-copy">A creative archive shaped by culture, image and everyday expression. Designed in Morocco. Made to be worn your own way.</p><div class="hero-actions"><a class="button" href="#/collection">Explore collection <span>↗</span></a><a class="button secondary" href="#/about">Our point of view</a></div></div><div class="hero-note">A DIFFERENT FORM OF EVERYDAY</div></section><section class="section"><div class="shell"><div class="section-head"><div><div class="section-kicker">01 / Selected pieces</div><h2 class="section-title">The collection</h2></div><p class="section-description">A considered selection of wearable artifacts. Explore each piece, choose your details and make it yours.</p></div><div class="catalog-grid">'+cards+'</div></div></section><section class="section"><div class="shell manifesto"><div class="manifesto-copy"><div class="section-kicker">02 / Our point of view</div><h2 class="section-title">More than<br>something to wear.</h2><p>AIT CREATIVE is an independent creative archive from Morocco. We bring original art into everyday life through considered pieces, visual stories and a point of view that stays personal.</p><a class="button secondary" href="#/about">Discover the archive</a></div><div class="manifesto-art"><span>AIT.</span></div></div></section><section class="instagram-band"><div class="shell instagram-row"><div><h2>Follow the archive.</h2><p>New pieces, visual notes and everything happening behind AIT CREATIVE.</p></div><a class="button secondary instagram-link" id="instagramLink" href="'+escapeHtml(safeExternalUrl(settings.instagram_url))+'" target="_blank" rel="noopener noreferrer">Follow on Instagram ↗</a></div></section>';
+    }
+    function collectionView(){var cards=products.length?products.map(cardMarkup).join(''):'<div class="empty-state">No products available right now.</div>';return '<section class="page-heading"><div class="shell"><div class="eyebrow">AIT CREATIVE / 01</div><h1>The collection.</h1><p>Explore the archive. Select a piece to discover its details, available colours and sizes.</p></div></section><section class="section page-catalog"><div class="shell"><div class="catalog-grid">'+cards+'</div></div></section>';
+    }
+    function aboutView(){return '<section class="page-heading"><div class="shell"><div class="eyebrow">AIT CREATIVE / The archive</div><h1>Made to be<br><em>worn your way.</em></h1><p>Independent creative archive from Morocco. Original Art. Wearable Artifacts.</p></div></section><section class="section"><div class="shell manifesto"><div class="manifesto-copy"><div class="section-kicker">Our philosophy</div><h2 class="section-title">A point of view,<br>made tangible.</h2><p>AIT CREATIVE explores the space between art, identity and everyday clothing. Each piece is part of a growing archive: considered, expressive and made to become part of your own story.</p><p>Rooted in Morocco, open to the world.</p><a class="button" href="#/collection">Explore the collection ↗</a></div><div class="manifesto-art"><span>AIT.</span></div></div></section><section class="instagram-band"><div class="shell instagram-row"><div><h2>Stay connected.</h2><p>Follow the archive on Instagram for new releases and visual stories.</p></div><a class="button secondary instagram-link" href="'+escapeHtml(safeExternalUrl(settings.instagram_url))+'" target="_blank" rel="noopener noreferrer">Instagram ↗</a></div></section>';}
+    function detailView(id){var p=getProduct(id);if(!p)return '<section class="cart-page shell"><div class="empty-cart"><h2>Piece not found.</h2><p>This product may no longer be available.</p><a class="button" href="#/collection">Back to collection</a></div></section>';var name=p.product_name_fr||p.product_name_en||'AIT CREATIVE';var images=splitImages(p.images);var src=imageUrl(p.images);var colors=availableColors(p);var sizes=availableSizes(p);if(colors.indexOf(detailColor)<0)detailColor=colors[0];if(sizes.indexOf(detailSize)<0)detailSize=sizes[0];detailQty=1;var out=isOutOfStock(p);return '<section class="shell detail-layout page-fade"><div class="detail-gallery"><div class="detail-main-image"><div class="image-fallback">AIT.</div>'+(src?'<img src="'+escapeHtml(src)+'" alt="'+escapeHtml(name)+'" referrerpolicy="no-referrer">':'')+'</div></div><div class="detail-info"><a class="back-link" href="#/collection">← Back to collection</a><div class="section-kicker">AIT CREATIVE / '+escapeHtml(p.reference||p.product_id)+'</div><h1 class="detail-name">'+escapeHtml(name)+'</h1><div class="detail-reference">Original wearable artifact</div><div class="detail-price">'+money(p.price_mad)+'</div><div class="detail-description">'+escapeHtml(p.description||'An original AIT CREATIVE piece. Made to be worn your own way.')+'</div><div class="option-group"><div class="option-heading"><span>Colour</span><span class="option-current" id="selectedColorLabel">'+escapeHtml(detailColor)+'</span></div><div class="option-list">'+colors.map(function(c){return '<button type="button" class="option-button '+(c===detailColor?'is-selected':'')+'" data-color="'+escapeHtml(c)+'">'+escapeHtml(c)+'</button>';}).join('')+'</div></div><div class="option-group"><div class="option-heading"><span>Size</span><span class="option-current" id="selectedSizeLabel">'+escapeHtml(detailSize)+'</span></div><div class="option-list">'+sizes.map(function(s){return '<button type="button" class="option-button '+(s===detailSize?'is-selected':'')+'" data-size="'+escapeHtml(s)+'">'+escapeHtml(s)+'</button>';}).join('')+'</div></div><div class="option-group"><div class="option-heading"><span>Quantity</span><span class="option-current">Max. 10 per item</span></div><div class="quantity-control"><button type="button" data-action="detail-minus" aria-label="Decrease quantity">−</button><span id="detailQty">1</span><button type="button" data-action="detail-plus" aria-label="Increase quantity">+</button></div></div><div class="detail-buttons"><button class="button" type="button" data-action="add-detail" '+(out?'disabled':'')+'>Add to bag</button><button class="button secondary" type="button" data-action="buy-now" '+(out?'disabled':'')+'>Buy it now</button></div><div class="stock-note '+(out?'out':(stockValue(p)!==null&&stockValue(p)<=5?'low':''))+'">'+escapeHtml(stockText(p))+' · Cash on delivery</div></div></section>';}
+    function cartView(){if(!cart.length)return '<section class="shell cart-page page-fade"><div class="cart-heading"><div class="section-kicker">Your selection</div><h1>Your bag.</h1></div><div class="empty-cart"><h2>Your bag is currently empty.</h2><p>Discover the collection and find your next wearable artifact.</p><a class="button" href="#/collection">Explore collection ↗</a></div></section>';var rows=cart.map(function(item,index){var p=getProduct(item.product_id);if(!p)return '';return '<article class="cart-item"><div class="cart-thumb">'+(imageUrl(p.images)?'<img src="'+escapeHtml(imageUrl(p.images))+'" alt="'+escapeHtml(p.product_name_fr||p.product_name_en)+'" referrerpolicy="no-referrer">':'<div class="image-fallback">AIT.</div>')+'</div><div><h3>'+escapeHtml(p.product_name_fr||p.product_name_en||'AIT CREATIVE')+'</h3><div class="cart-item-meta">Colour: '+escapeHtml(item.color)+'<br>Size: '+escapeHtml(item.size)+'<br>'+escapeHtml(p.reference||p.product_id)+'</div><div class="cart-item-price">'+money((Number(p.price_mad)||0)*item.quantity)+'</div></div><div class="cart-item-actions"><div class="mini-qty"><button type="button" data-action="cart-minus" data-index="'+index+'" aria-label="Decrease">−</button><span>'+item.quantity+'</span><button type="button" data-action="cart-plus" data-index="'+index+'" aria-label="Increase">+</button></div><button class="remove-button" type="button" data-action="cart-remove" data-index="'+index+'">Remove</button></div></article>';}).join('');var subtotal=cartSubtotal();return '<section class="shell cart-page page-fade"><div class="cart-heading"><div class="section-kicker">Your selection / '+cartCount()+' items</div><h1>Your bag.</h1></div><div class="cart-layout"><div class="cart-list">'+rows+'</div><aside class="summary-card"><h2>Order summary</h2><div class="summary-row"><span>Subtotal</span><strong>'+money(subtotal)+'</strong></div><div class="summary-row"><span>Delivery</span><strong>'+money(deliveryFee())+'</strong></div><div class="summary-row summary-total"><span>Total</span><strong>'+money(subtotal+deliveryFee())+'</strong></div><a class="button" href="#/checkout">Continue to checkout ↗</a><a class="continue-link" href="#/collection">← Continue shopping</a></aside></div></section>';}
+    function checkoutView(){if(!cart.length)return cartView();var subtotal=cartSubtotal();var summary=cart.map(function(item){var p=getProduct(item.product_id);if(!p)return '';return '<div class="checkout-summary-item"><span>'+escapeHtml(p.product_name_fr||p.product_name_en)+' · '+escapeHtml(item.color)+' / '+escapeHtml(item.size)+' × '+item.quantity+'</span><strong>'+money((Number(p.price_mad)||0)*item.quantity)+'</strong></div>';}).join('');return '<section class="shell checkout-page page-fade"><div class="checkout-heading"><div class="section-kicker">Last step / Cash on delivery</div><h1>Almost yours.</h1><p class="section-description">Enter your delivery details. We will contact you to confirm your order.</p></div><div class="checkout-layout"><form id="checkoutForm" class="checkout-form"><div class="form-field full"><label for="customerName">Full name *</label><input id="customerName" name="name" type="text" autocomplete="name" maxlength="100" placeholder="Your full name" required></div><div class="form-field"><label for="customerPhone">Moroccan phone number *</label><input id="customerPhone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="18" placeholder="06 00 00 00 00" required></div><div class="form-field"><label for="customerCity">City *</label><input id="customerCity" name="city" type="text" autocomplete="address-level2" maxlength="80" placeholder="Casablanca" required></div><div class="form-field full"><label for="customerAddress">Full delivery address *</label><textarea id="customerAddress" name="address" autocomplete="street-address" maxlength="500" placeholder="Street, building, floor, neighbourhood..." required></textarea></div><div class="form-field"><label for="customerEmail">Email (optional)</label><input id="customerEmail" name="email" type="email" autocomplete="email" maxlength="120" placeholder="name@email.com"></div><div class="form-field"><label for="customerInstructions">Delivery instructions (optional)</label><input id="customerInstructions" name="instructions" type="text" maxlength="300" placeholder="Any extra details"></div><div class="payment-box"><div class="payment-title">Payment method · Cash on delivery</div><p>You will pay in cash when your order arrives. No online payment is required.</p></div><div class="form-actions"><button class="button" type="submit" id="placeOrderButton">Confirm order · '+money(subtotal+deliveryFee())+'</button><span class="form-note">By confirming, you agree to be contacted to arrange delivery.</span></div></form><aside class="summary-card checkout-summary"><h2>Your order</h2>'+summary+'<div class="summary-row" style="margin-top:18px"><span>Subtotal</span><strong>'+money(subtotal)+'</strong></div><div class="summary-row"><span>Delivery</span><strong>'+money(deliveryFee())+'</strong></div><div class="summary-row summary-total"><span>Total</span><strong>'+money(subtotal+deliveryFee())+'</strong></div><a class="continue-link" href="#/cart">← Edit your bag</a></aside></div></section>';}
+    function confirmationView(){if(!lastOrder)return '<section class="shell confirmation-page page-fade"><div class="confirmation-inner"><div class="success-mark">✓</div><div class="section-kicker">AIT CREATIVE / Thank you</div><h1>Order received.</h1><p>Your selection has been sent to our team. We will contact you to confirm the delivery details.</p><a class="button" href="#/collection">Back to collection ↗</a></div></section>';return '<section class="shell confirmation-page page-fade"><div class="confirmation-inner"><div class="success-mark">✓</div><div class="section-kicker">AIT CREATIVE / Thank you</div><h1>Order received.</h1><p>Your order has been recorded. Our team will contact you shortly to confirm your delivery.</p><div class="order-number">'+escapeHtml(lastOrder.order_id||'Order confirmed')+' · '+money(lastOrder.total_mad)+'</div><p>Payment method: Cash on delivery.</p><a class="button" href="#/collection">Continue exploring ↗</a></div></section>';}
+    function currentRoute(){var hash=location.hash.replace(/^#\\/?/,'');if(!hash)return {name:'home'};var parts=hash.split('/');if(parts[0]==='product'&&parts[1])return {name:'product',id:decodeURIComponent(parts.slice(1).join('/'))};if(['collection','about','cart','checkout','confirmation'].indexOf(parts[0])>=0)return {name:parts[0]};return {name:'home'};}
+    function renderRoute(){var route=currentRoute();if(route.name==='home')app.innerHTML=homeView();else if(route.name==='collection')app.innerHTML=collectionView();else if(route.name==='about')app.innerHTML=aboutView();else if(route.name==='product')app.innerHTML=detailView(route.id);else if(route.name==='cart')app.innerHTML=cartView();else if(route.name==='checkout')app.innerHTML=checkoutView();else if(route.name==='confirmation')app.innerHTML=confirmationView();else app.innerHTML=homeView();app.classList.remove('page-fade');void app.offsetWidth;app.classList.add('page-fade');renderCartCount();setupReveal();updateInstagram();var nav=byId('navLinks');if(nav)nav.classList.remove('is-open');var toggle=byId('menuToggle');if(toggle)toggle.setAttribute('aria-expanded','false');window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}
+    function addSelectedProduct(goCheckout){var route=currentRoute();var p=getProduct(route.id);if(!p)return;if(isOutOfStock(p)){showToast('This piece is currently out of stock.');return;}var quantity=Math.max(1,Math.min(10,detailQty));var existing=cart.find(function(item){return item.product_id===p.product_id&&item.color===detailColor&&item.size===detailSize;});var nextQty=(existing?existing.quantity:0)+quantity;var stock=stockValue(p);if(stock!==null&&nextQty>stock){showToast('Not enough stock available.');return;}if(existing)existing.quantity=nextQty;else cart.push({product_id:p.product_id,color:detailColor,size:detailSize,quantity:quantity});saveCart();renderCartCount();if(goCheckout){location.hash='#/checkout';}else{showToast('Added to your bag.');location.hash='#/cart';}}
+    function updateCartItem(index,delta){var item=cart[index];if(!item)return;var p=getProduct(item.product_id);var next=item.quantity+delta;var stock=p?stockValue(p):null;if(next<1)return;if(next>10||(stock!==null&&next>stock)){showToast('Quantity exceeds available stock.');return;}item.quantity=next;saveCart();renderRoute();}
+    function removeCartItem(index){cart.splice(index,1);saveCart();renderRoute();}
+    async function submitOrder(form){if(!cart.length){showToast('Your bag is empty.');location.hash='#/cart';return;}var button=byId('placeOrderButton');if(button){button.disabled=true;button.textContent='Sending order…';}var data=new FormData(form);var payload={action:'createOrder',language:'en',customer:{name:data.get('name'),phone:data.get('phone'),city:data.get('city'),address:data.get('address'),email:data.get('email'),instructions:data.get('instructions')},items:cart.map(function(item){return {product_id:item.product_id,color:item.color,size:item.size,quantity:item.quantity};})};try{var response=await fetch('/api/order',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload),cache:'no-store'});var result;try{result=await response.json();}catch(parseError){throw new Error('The order service returned an invalid response. Please try again.');}if(!response.ok||!result||result.ok!==true)throw new Error(result&&result.error?result.error:'Your order could not be completed. Please try again.');lastOrder={order_id:result.order_id,total_mad:result.total_mad};cart=[];saveCart();form.reset();location.hash='#/confirmation';refreshProducts(false);}catch(error){showToast(error.message||'Could not send your order. Please try again.');if(button){button.disabled=false;button.textContent='Try again · '+money(cartSubtotal()+deliveryFee());}}}
+    async function refreshProducts(showErrors){try{var response=await fetch('/api/products',{headers:{'Accept':'application/json'},cache:'no-store'});var result=await response.json();if(!response.ok||!result||result.ok!==true)throw new Error(result&&result.error?result.error:'Unable to load products.');products=Array.isArray(result.products)?result.products:[];settings=result.settings||settings;updateInstagram();if(showErrors&&currentRoute().name==='home')renderRoute();}catch(error){console.error('AIT CREATIVE product refresh failed:',error);if(showErrors&&currentRoute().name==='home'&&!products.length){app.insertAdjacentHTML('beforeend','<div class="shell error-box">Products could not be refreshed: '+escapeHtml(error.message)+'</div>');}}}
+    document.addEventListener('click',function(event){var colorButton=event.target.closest('[data-color]');if(colorButton){detailColor=colorButton.getAttribute('data-color');var colorWrap=colorButton.parentElement;colorWrap.querySelectorAll('[data-color]').forEach(function(el){el.classList.toggle('is-selected',el===colorButton);});var label=byId('selectedColorLabel');if(label)label.textContent=detailColor;return;}var sizeButton=event.target.closest('[data-size]');if(sizeButton){detailSize=sizeButton.getAttribute('data-size');var sizeWrap=sizeButton.parentElement;sizeWrap.querySelectorAll('[data-size]').forEach(function(el){el.classList.toggle('is-selected',el===sizeButton);});var label2=byId('selectedSizeLabel');if(label2)label2.textContent=detailSize;return;}var action=event.target.closest('[data-action]');if(!action)return;var type=action.getAttribute('data-action');if(type==='detail-minus'){detailQty=Math.max(1,detailQty-1);if(byId('detailQty'))byId('detailQty').textContent=detailQty;}else if(type==='detail-plus'){detailQty=Math.min(10,detailQty+1);if(byId('detailQty'))byId('detailQty').textContent=detailQty;}else if(type==='add-detail')addSelectedProduct(false);else if(type==='buy-now')addSelectedProduct(true);else if(type==='cart-minus')updateCartItem(Number(action.getAttribute('data-index')),-1);else if(type==='cart-plus')updateCartItem(Number(action.getAttribute('data-index')),1);else if(type==='cart-remove')removeCartItem(Number(action.getAttribute('data-index')));});
+    document.addEventListener('submit',function(event){if(event.target&&event.target.id==='checkoutForm'){event.preventDefault();submitOrder(event.target);}});
+    window.addEventListener('hashchange',renderRoute);
+    var menuToggle=byId('menuToggle');if(menuToggle)menuToggle.addEventListener('click',function(){var nav=byId('navLinks');var open=nav.classList.toggle('is-open');menuToggle.setAttribute('aria-expanded',open?'true':'false');});
+    byId('year').textContent=String(new Date().getFullYear());renderCartCount();updateInstagram();if(!location.hash)history.replaceState(null,'',location.pathname+location.search+'#/');if(products.length)renderRoute();refreshProducts(true);
+  })();
+  </script>
 </body>
 </html>`;
 
-function json(data, status) {
+function jsonResponse(data, status = 200) {
   return new Response(JSON.stringify(data), {
-    status: status || 200,
-    headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' }
+    status,
+    headers: {
+      'content-type': 'application/json; charset=utf-8',
+      'cache-control': 'no-store',
+      'x-content-type-options': 'nosniff'
+    }
   });
+}
+
+function safeJsonForHtml(value) {
+  return JSON.stringify(value)
+    .replace(/</g, '\\u003c')
+    .replace(/>/g, '\\u003e')
+    .replace(/&/g, '\\u0026')
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029');
+}
+
+function escapeHtml(value) {
+  return String(value == null ? '' : value).replace(/[&<>"']/g, function (ch) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch];
+  });
+}
+
+function getImageUrl(value) {
+  const raw = (Array.isArray(value) ? value : String(value || '').split(/[,،;\n]/))
+    .map((part) => String(part || '').trim())
+    .filter(Boolean)[0] || '';
+  const match = raw.match(/drive\.google\.com\/file\/d\/([^/]+)/i) || raw.match(/[?&]id=([^&]+)/i);
+  return match ? 'https://drive.google.com/thumbnail?id=' + encodeURIComponent(match[1]) + '&sz=w1200' : raw;
+}
+
+function renderServerCards(products) {
+  if (!products.length) return '<div class="empty-state">The collection is being prepared. Please check back soon.</div>';
+  return products.map((product) => {
+    const name = product.product_name_fr || product.product_name_en || 'AIT CREATIVE';
+    const src = getImageUrl(product.images);
+    const image = src
+      ? '<img src="' + escapeHtml(src) + '" alt="' + escapeHtml(name) + '" loading="lazy" referrerpolicy="no-referrer"><div class="image-fallback">AIT.</div>'
+      : '<div class="image-fallback">AIT.</div>';
+    const stock = product.stock === '' || product.stock === null || typeof product.stock === 'undefined' ? null : Number(product.stock);
+    return '<article class="product-card"><a class="product-media" href="#/product/' + encodeURIComponent(String(product.product_id || '')) + '">' + image + '<span class="product-label">' + (stock !== null && Number.isFinite(stock) && stock <= 0 ? 'Sold out' : 'AIT / Original') + '</span><span class="product-quick">Discover piece ↗</span></a><div class="product-info"><div><h3 class="product-name">' + escapeHtml(name) + '</h3><div class="product-reference">' + escapeHtml(product.reference || product.product_id || 'AIT CREATIVE') + '</div></div><div class="product-price">' + new Intl.NumberFormat('fr-MA', { maximumFractionDigits: 0 }).format(Number(product.price_mad) || 0) + ' MAD</div></div></article>';
+  }).join('');
+}
+
+async function fetchStoreData(env) {
+  if (!env || !env.APPS_SCRIPT_URL) throw new Error('APPS_SCRIPT_URL is not configured.');
+  let endpoint;
+  try {
+    endpoint = new URL(env.APPS_SCRIPT_URL);
+  } catch (error) {
+    throw new Error('APPS_SCRIPT_URL is not a valid URL.');
+  }
+  if (endpoint.protocol !== 'https:') throw new Error('APPS_SCRIPT_URL must use HTTPS.');
+  endpoint.searchParams.set('action', 'products');
+  const response = await fetch(endpoint.toString(), { method: 'GET', redirect: 'follow' });
+  const text = await response.text();
+  if (!response.ok) throw new Error('Google Apps Script returned HTTP ' + response.status + '.');
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch (error) {
+    throw new Error('Google Apps Script did not return JSON. Check that the Web App deployment is accessible to Anyone.');
+  }
+  if (!data || data.ok !== true || !Array.isArray(data.products)) {
+    throw new Error(data && data.error ? String(data.error) : 'The product response has an unexpected format.');
+  }
+  return data;
+}
+
+async function handleOrder(request, env) {
+  if (request.method !== 'POST') return jsonResponse({ ok: false, error: 'Use POST to submit an order.' }, 405);
+  if (!env || !env.APPS_SCRIPT_URL) return jsonResponse({ ok: false, error: 'APPS_SCRIPT_URL is not configured in Worker settings.' }, 500);
+  const contentType = request.headers.get('content-type') || '';
+  if (!contentType.toLowerCase().includes('application/json')) return jsonResponse({ ok: false, error: 'Send the order as application/json.' }, 415);
+  const body = await request.text();
+  if (!body || body.length > 50000) return jsonResponse({ ok: false, error: 'The order payload is empty or too large.' }, 413);
+  let payload;
+  try {
+    payload = JSON.parse(body);
+  } catch (error) {
+    return jsonResponse({ ok: false, error: 'Invalid order JSON.' }, 400);
+  }
+  if (!payload || !Array.isArray(payload.items) || !payload.customer) {
+    return jsonResponse({ ok: false, error: 'Order details are incomplete.' }, 400);
+  }
+  try {
+    const response = await fetch(env.APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json; charset=utf-8' },
+      body: JSON.stringify(payload),
+      redirect: 'follow'
+    });
+    const text = await response.text();
+    if (!response.ok) return jsonResponse({ ok: false, error: 'Google Apps Script returned HTTP ' + response.status + '.' }, 502);
+    let result;
+    try {
+      result = JSON.parse(text);
+    } catch (error) {
+      return jsonResponse({ ok: false, error: 'Google Apps Script did not return a valid order response. Check the Web App deployment.' }, 502);
+    }
+    return jsonResponse(result, result && result.ok === true ? 200 : 400);
+  } catch (error) {
+    return jsonResponse({ ok: false, error: 'Could not reach Google Apps Script: ' + error.message }, 502);
+  }
 }
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    if (url.pathname === '/health') return json({ ok: true, service: 'AIT CREATIVE Worker' });
+    if (url.pathname === '/health') return jsonResponse({ ok: true, service: 'AIT CREATIVE Worker', version: 'final-1' });
 
     if (url.pathname === '/api/products') {
-      if (!env.APPS_SCRIPT_URL) return json({ ok: false, error: 'APPS_SCRIPT_URL is not configured in Worker settings.' }, 500);
+      if (request.method !== 'GET') return jsonResponse({ ok: false, error: 'Use GET to load products.' }, 405);
       try {
-        const target = new URL(env.APPS_SCRIPT_URL);
-        target.searchParams.set('action', 'products');
-        const upstream = await fetch(target.toString(), { method: 'GET', redirect: 'follow' });
-        const body = await upstream.text();
-        return new Response(body, { status: upstream.status, headers: { 'content-type': upstream.headers.get('content-type') || 'application/json; charset=utf-8', 'cache-control': 'no-store' } });
-      } catch (err) {
-        return json({ ok: false, error: 'Google Apps Script request failed: ' + err.message }, 502);
+        const data = await fetchStoreData(env);
+        return jsonResponse(data);
+      } catch (error) {
+        return jsonResponse({ ok: false, error: error.message }, 502);
       }
     }
 
-    if (url.pathname === '/api/order') {
-      if (request.method !== 'POST') return json({ ok: false, error: 'Use POST for orders.' }, 405);
-      if (!env.APPS_SCRIPT_URL) return json({ ok: false, error: 'APPS_SCRIPT_URL is not configured in Worker settings.' }, 500);
-      try {
-        const body = await request.text();
-        const upstream = await fetch(env.APPS_SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: body,
-          redirect: 'follow'
-        });
-        const text = await upstream.text();
-        return new Response(text, { status: upstream.status, headers: { 'content-type': upstream.headers.get('content-type') || 'application/json; charset=utf-8', 'cache-control': 'no-store' } });
-      } catch (err) {
-        return json({ ok: false, error: 'Order request failed: ' + err.message }, 502);
-      }
-    }
+    if (url.pathname === '/api/order') return handleOrder(request, env);
 
     if (url.pathname === '/' || url.pathname === '/index.html') {
-      let initial = { ok: false, products: [], settings: { delivery_fee_mad: 0, instagram_url: 'https://www.instagram.com/' } };
-      if (env.APPS_SCRIPT_URL) {
-        try {
-          const target = new URL(env.APPS_SCRIPT_URL);
-          target.searchParams.set('action', 'products');
-          const upstream = await fetch(target.toString(), { method: 'GET', redirect: 'follow' });
-          const body = await upstream.text();
-          initial = JSON.parse(body);
-        } catch (err) {
-          initial = { ok: false, products: [], settings: { delivery_fee_mad: 0, instagram_url: 'https://www.instagram.com/' }, error: err.message };
-        }
+      let data = { ok: true, products: [], settings: DEFAULT_SETTINGS };
+      let loadError = '';
+      try {
+        data = await fetchStoreData(env);
+      } catch (error) {
+        loadError = error.message;
+        data = { ok: false, products: [], settings: DEFAULT_SETTINGS };
       }
-      const products = Array.isArray(initial.products) ? initial.products : [];
-      const settings = initial.settings || { delivery_fee_mad: 0, instagram_url: 'https://www.instagram.com/' };
-      const safeJson = value => JSON.stringify(value).replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/&/g, '\\u0026');
-      const esc = value => String(value == null ? '' : value).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
-      const imgUrl = value => {
-        const raw = String(value || '').split(/[,،;\n]/).map(x => x.trim()).filter(Boolean)[0] || '';
-        const match = raw.match(/drive\.google\.com\/file\/d\/([^/]+)/i) || raw.match(/[?&]id=([^&]+)/i);
-        return match ? 'https://drive.google.com/thumbnail?id=' + match[1] + '&sz=w1200' : raw;
-      };
-      const cards = products.map(p => {
-        const name = p.product_name_fr || p.product_name_en || 'AIT CREATIVE';
-        const image = imgUrl(p.images);
-        const media = image
-          ? '<img src="' + esc(image) + '" alt="' + esc(name) + '" style="width:100%;height:100%;object-fit:cover">'
-          : '<div class="placeholder">AIT.</div>';
-        return '<article class="product" data-product="' + esc(p.product_id) + '" data-reveal><div class="product-image">' + media + '</div><div class="product-meta"><div><div class="product-name">' + esc(name) + '</div><div class="small-ref">' + esc(p.reference || 'AIT CREATIVE') + '</div></div><div class="price">' + new Intl.NumberFormat('fr-MA', { maximumFractionDigits: 0 }).format(Number(p.price_mad) || 0) + ' MAD</div></div></article>';
-      }).join('');
-      const emptyMessage = initial.error
-        ? '<div class="empty error" style="grid-column:1/-1">Impossible de charger les produits. ' + esc(initial.error) + '</div>'
-        : '<div class="empty" style="grid-column:1/-1">La collection sera bientôt disponible.</div>';
-      let page = HTML;
-      page = page.replace('var products = __AIT_INITIAL_PRODUCTS__;', 'var products = ' + safeJson(products) + ';');
-      page = page.replace('var settings = __AIT_INITIAL_SETTINGS__;', 'var settings = ' + safeJson(settings) + ';');
-      page = page.replace('<div id="products" class="products"><div class="loading">Chargement de la collection…</div></div>', '<div id="products" class="products">' + (cards || emptyMessage) + '</div>');
-      return new Response(page, { headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' } });
+      const products = Array.isArray(data.products) ? data.products : [];
+      const settings = Object.assign({}, DEFAULT_SETTINGS, data.settings || {});
+      let page = SITE_HTML
+        .replace('__AIT_SERVER_CARDS__', renderServerCards(products))
+        .replace('__AIT_INITIAL_PRODUCTS__', safeJsonForHtml(products))
+        .replace('__AIT_INITIAL_SETTINGS__', safeJsonForHtml(settings))
+        .replace('__AIT_INITIAL_ERROR__', safeJsonForHtml(loadError));
+      return new Response(page, {
+        status: 200,
+        headers: {
+          'content-type': 'text/html; charset=utf-8',
+          'cache-control': 'no-store, max-age=0',
+          'x-content-type-options': 'nosniff',
+          'referrer-policy': 'strict-origin-when-cross-origin',
+          'permissions-policy': 'camera=(), microphone=(), geolocation=()'
+        }
+      });
     }
-    return new Response('Not found', { status: 404 });
+
+    return new Response('Not found', {
+      status: 404,
+      headers: { 'content-type': 'text/plain; charset=utf-8', 'x-content-type-options': 'nosniff' }
+    });
   }
 };
