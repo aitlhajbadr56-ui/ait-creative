@@ -1,5 +1,4 @@
 const DEFAULT_SETTINGS = {
-  store_name: 'AIT CREATIVE', const DEFAULT_SETTINGS = {
   store_name: 'AIT CREATIVE',
   delivery_fee_mad: 0,
   instagram_url: '',
@@ -276,8 +275,6 @@ export default {
     return new Response('Not found', {
       status: 404,
       headers: { 'content-type': 'text/plain; charset=utf-8', 'x-content-type-options': 'nosniff' }
-      const DEFAULT_SETTINGS = {
-  store_name: 'AIT CREATIVE',
     });
   }
 };
