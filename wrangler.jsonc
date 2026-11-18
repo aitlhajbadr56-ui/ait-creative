@@ -1,7 +1,7 @@
 
 {
   "name": "ait-creative",
-  "main": "worker.js",
+  "main": "./worker.js"
   "compatibility_date": "2026-11-18",
   "vars": {
     "APPS_SCRIPT_URL": "https://script.google.com/macros/s/AKfycbwYRnSeYlzqm3z7xdR0Ma8MTJQ0Oi3TKTCAJwlwuJBDhJy4E5M8qpMVMVEnbWDCF8ecpQ/exec"
