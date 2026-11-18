@@ -124,6 +124,97 @@ const SITE_HTML = `<!doctype html>
 @media (prefers-reduced-motion: reduce) {
   .hero::before,
   .hero::after {
+    animation: none! important; 
+  }
+}
+</style> in worker.js. */
+.hero {
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse at 78% 38%, rgba(216,194,163,.19) 0%, transparent 36%),
+    radial-gradient(ellipse at 91% 84%, rgba(216,194,163,.08) 0%, transparent 27%),
+    repeating-linear-gradient(0deg, rgba(232,220,200,.018) 0 1px, transparent 1px 7px),
+    linear-gradient(118deg, #080808 0%, #11100e 54%, #19150f 100%) !important;
+}
+
+.hero::before {
+  z-index: 0;
+  width: min(58vw, 700px);
+  height: min(58vw, 700px);
+  right: -8%;
+  top: 50%;
+  border: 1px solid rgba(216,194,163,.22);
+  border-radius: 48% 52% 46% 54%;
+  background:
+    radial-gradient(ellipse at 42% 40%, rgba(216,194,163,.11), transparent 54%),
+    repeating-linear-gradient(135deg, rgba(232,220,200,.045) 0 1px, transparent 1px 13px);
+  box-shadow:
+    0 0 0 18px rgba(216,194,163,.025),
+    0 0 0 54px rgba(216,194,163,.018),
+    inset 0 0 70px rgba(216,194,163,.035);
+  transform: translateY(-50%) rotate(18deg);
+  animation: ait-hero-orbit 30s linear infinite;
+}
+
+.hero::after {
+  z-index: 0;
+  width: clamp(180px, 24vw, 330px);
+  height: min(66%, 430px);
+  right: 13%;
+  top: 16%;
+  border: 1px solid rgba(216,194,163,.16);
+  background:
+    linear-gradient(145deg, rgba(216,194,163,.11), rgba(216,194,163,.015) 62%),
+    repeating-linear-gradient(90deg, rgba(232,220,200,.035) 0 1px, transparent 1px 15px);
+  clip-path: polygon(50% 0, 84% 11%, 100% 100%, 0 100%, 16% 11%);
+  transform: rotate(10deg);
+  animation: ait-hero-float 11s ease-in-out infinite;
+}
+
+.hero-content {
+  z-index: 2;
+}
+
+.hero h1 {
+  position: relative;
+  text-shadow: 0 8px 38px rgba(0,0,0,.42);
+}
+
+@keyframes ait-hero-orbit {
+  from { transform: translateY(-50%) rotate(18deg); }
+  to   { transform: translateY(-50%) rotate(378deg); }
+}
+
+@keyframes ait-hero-float {
+  0%, 100% { translate: 0 0; }
+  50%      { translate: 0 -12px; }
+}
+
+@media (max-width: 900px) {
+  .hero::before { right: -34%; opacity: .78; }
+  .hero::after { right: 2%; opacity: .62; }
+}
+
+@media (max-width: 640px) {
+  .hero::before {
+    width: 390px;
+    height: 390px;
+    right: -235px;
+    top: 46%;
+    opacity: .55;
+  }
+  .hero::after {
+    width: 190px;
+    height: 290px;
+    right: -8%;
+    top: 26%;
+    opacity: .38;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero::before,
+  .hero::after {
     animation: none ! important;
   }
 }  </style>
